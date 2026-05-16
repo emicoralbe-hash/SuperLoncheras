@@ -1,0 +1,120 @@
+<!-- templates/batch_cooking.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batch Cooking & Congelados - SuperLoncheras</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .batch-container {
+            padding: 2rem 5%;
+        }
+        .calculator-card {
+            background: linear-gradient(135deg, #e0f7fa 0%, #ffffff 100%);
+            padding: 2rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        input {
+            padding: 0.8rem;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            width: 80px;
+        }
+        .frozen-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        .tip-box {
+            background: #fff3e0;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            color: #e65100;
+            margin-top: 10px;
+            border-left: 4px solid #ff9800;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">Super<span>Loncheras</span></a>
+        <div class="nav-links">
+            <a href="/">Recetas</a>
+            <a href="/planner">Planificador</a>
+            <a href="/batch-cooking">Congelados ❄️</a>
+        </div>
+    </header>
+
+    <div class="announcement-bar">
+        <span>❄️</span> ¡Cocina un día, come todo el mes! Aprende a congelar saludablemente. <span>✨</span>
+    </div>
+
+    <div class="batch-container">
+        <h1>Calculadora de Batch Cooking</h1>
+        <div class="calculator-card">
+            <div style="font-size: 2.5rem;">👨‍👩‍👧‍👦</div>
+            <div class="input-group">
+                <label>Adultos</label>
+                <input type="number" id="adults" value="2" onchange="calculate()">
+            </div>
+            <div class="input-group">
+                <label>Niños</label>
+                <input type="number" id="kids" value="2" onchange="calculate()">
+            </div>
+            <div class="input-group">
+                <label>Semanas</label>
+                <input type="number" id="weeks" value="1" onchange="calculate()">
+            </div>
+            <div style="flex-grow: 1;">
+                <h3 id="result-text">Prepararás comida para 28 servicios.</h3>
+                <p style="font-size: 0.85rem; color: var(--gray);">Ajustaremos las cantidades de las recetas automáticamente.</p>
+            </div>
+        </div>
+
+        <h2>Recetas Optimizadas para Congelar</h2>
+        <div class="frozen-grid">
+            {% for receta in recetas %}
+            <div class="recipe-card">
+                <span class="badge">{{ receta.tag }}</span>
+                <img src="{{ receta.img }}" alt="{{ receta.nombre }}">
+                <div class="recipe-info">
+                    <h3>{{ receta.nombre }}</h3>
+                    <div class="tip-box">
+                        <strong>💡 Tip de Congelado:</strong> {{ receta.congelado_tips }}
+                    </div>
+                    <div style="margin-top:15px;">
+                        <button style="width:100%; padding: 0.8rem; background: var(--mint); border:none; border-radius:10px; cursor:pointer; font-weight:600;">Ver Lista Escalada</button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="floating-helper">
+        <span>🥕</span>
+    </div>
+
+    <script>
+        function calculate() {
+            const adults = document.getElementById('adults').value;
+            const kids = document.getElementById('kids').value;
+            const weeks = document.getElementById('weeks').value;
+            const total = (parseInt(adults) + parseInt(kids)) * 7 * parseInt(weeks);
+            document.getElementById('result-text').innerText = `Prepararás comida para ${total} servicios.`;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,262 @@
+<!-- templates/planner.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planificador Mensual - SuperLoncheras</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .planner-layout {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 2rem;
+            padding: 2rem 5%;
+        }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+        }
+        .calendar-day {
+            background: white;
+            border-radius: 12px;
+            aspect-ratio: 1/1;
+            padding: 10px;
+            border: 2px dashed #eee;
+            position: relative;
+            transition: all 0.3s;
+        }
+        .calendar-day:hover {
+            border-color: var(--mint);
+            background: #f9fff9;
+        }
+        .calendar-day .day-number {
+            font-weight: 600;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        .sidebar {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            height: calc(100vh - 200px);
+            position: sticky;
+            top: 100px;
+            overflow-y: auto;
+        }
+        .recipe-mini-card {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 12px;
+            background: #f8f9fa;
+            margin-bottom: 10px;
+            cursor: grab;
+            transition: transform 0.2s;
+        }
+        .recipe-mini-card:hover {
+            transform: scale(1.02);
+            background: var(--mint);
+        }
+        .recipe-mini-card img {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        .mascot-bubble {
+            position: fixed;
+            bottom: 130px;
+            right: 40px;
+            background: white;
+            padding: 1rem;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            max-width: 200px;
+            font-size: 0.85rem;
+            display: none;
+            z-index: 1000;
+        }
+        .mascot-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            right: 30px;
+            border-width: 10px 10px 0;
+            border-style: solid;
+            border-color: white transparent transparent;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">Super<span>Loncheras</span></a>
+        <div class="nav-links">
+            <a href="/">Recetas</a>
+            <a href="/planner">Planificador</a>
+            <a href="/batch-cooking">Congelados ❄️</a>
+            <a href="/marketplace">Marketplace</a>
+        </div>
+    </header>
+
+    <div class="announcement-bar">
+        <span>📅</span> ¡Organiza tu mes! Arrastra recetas para armar tu minuta mensual. <span>🥑</span>
+    </div>
+
+    <div class="print-header">
+        <h1>Minuta Mensual de SuperLoncheras</h1>
+        <p>Alimentación Saludable con Superalimentos para mi Familia</p>
+    </div>
+
+    <div class="planner-layout">
+        <div class="calendar-container">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <h2>Mayo 2026</h2>
+                <div style="display: flex; gap: 10px;">
+                    <button onclick="generateShoppingList()" style="background: var(--mint); color: var(--dark); border: none; padding: 0.8rem 1.5rem; border-radius: 12px; cursor: pointer; font-weight: 600; box-shadow: 0 4px 10px rgba(152,255,152,0.3);">
+                        🛒 Generar Lista
+                    </button>
+                    <button onclick="window.print()" style="background: var(--orange); color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 12px; cursor: pointer; font-weight: 600; box-shadow: 0 4px 10px rgba(255,140,0,0.3);">
+                        🖨️ Imprimir Minuta
+                    </button>
+                </div>
+            </div>
+            <div class="calendar-grid">
+                {% for dia in dias %}
+                <div class="calendar-day" onclick="assignRecipe(this)">
+                    <span class="day-number">{{ dia }}</span>
+                    <div class="assigned-recipe"></div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <h3>Mis Favoritos</h3>
+            {% for receta in recetas %}
+            <div class="recipe-mini-card" onclick="selectRecipe('{{ receta.nombre }}')">
+                <img src="{{ receta.img }}" alt="{{ receta.nombre }}">
+                <div>
+                    <div style="font-weight: 600; font-size: 0.9rem;">{{ receta.nombre }}</div>
+                    <div style="font-size: 0.7rem; color: var(--gray);">{{ receta.tag }}</div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="mascot-bubble" id="bubble">
+        ¡Excelente elección! Esa receta es riquísima y súper nutritiva. 🥑✨
+    </div>
+
+    <style>
+        .print-footer {
+            display: none;
+            margin-top: 2rem;
+            border-top: 2px solid var(--mint);
+            padding-top: 1rem;
+        }
+        @media print {
+            .print-footer {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+            .print-box {
+                border: 1px solid #ddd;
+                padding: 1rem;
+                height: 150px;
+            }
+        }
+    </style>
+
+    <div class="print-footer">
+        <div class="print-box">
+            <h3 style="margin-top:0">📝 Notas de la Semana</h3>
+        </div>
+        <div class="print-box">
+            <h3 style="margin-top:0">🛒 Pendientes de Compra</h3>
+        </div>
+    </div>
+
+    <div class="floating-helper" onclick="toggleBubble()">
+        <span>🥑</span>
+    </div>
+
+    <script>
+        const recetasData = {{ recetas|tojson }};
+        let assignedRecipes = {}; // Estructura: { dia: "Nombre Receta" }
+        let selectedRecipe = null;
+
+        function selectRecipe(name) {
+            selectedRecipe = name;
+            showBubble(`Has seleccionado: ${name}. Ahora haz clic en un día del calendario.`);
+        }
+
+        function assignRecipe(dayElement) {
+            const day = dayElement.querySelector('.day-number').innerText;
+            if (selectedRecipe) {
+                assignedRecipes[day] = selectedRecipe;
+                dayElement.querySelector('.assigned-recipe').innerHTML = 
+                    `<div style="font-size: 0.6rem; margin-top: 5px; color: var(--orange); font-weight: 600;">${selectedRecipe}</div>`;
+                dayElement.style.borderColor = 'var(--orange)';
+                dayElement.style.background = '#fff8f0';
+                
+                showBubble(`¡Perfecto! Planificaste ${selectedRecipe} para el día ${day}. 🌟`);
+                selectedRecipe = null;
+            } else {
+                showBubble("Primero elige una receta de la lista a la derecha. 👉");
+            }
+        }
+
+        function generateShoppingList() {
+            if (Object.keys(assignedRecipes).length === 0) {
+                showBubble("¡Oops! Primero debes planificar algunas recetas en el calendario. 🥑");
+                return;
+            }
+
+            let list = {};
+            Object.values(assignedRecipes).forEach(name => {
+                const receta = recetasData.find(r => r.nombre === name);
+                if (receta && receta.ingredientes) {
+                    receta.ingredientes.forEach(ing => {
+                        if (!list[ing.cat]) list[ing.cat] = [];
+                        // Para este prototipo, simplemente los listamos. 
+                        // En una versión final, sumaríamos cantidades (ej: 1/2 taza + 1/2 taza = 1 taza)
+                        list[ing.cat].push(`${ing.item} (${ing.cant})`);
+                    });
+                }
+            });
+
+            let listHtml = "<h3>Tu Lista de Compras</h3>";
+            for (let cat in list) {
+                listHtml += `<div style="margin-bottom:10px;"><strong>${cat}:</strong><br>`;
+                // Eliminar duplicados simples para la vista
+                let uniqueIngs = [...new Set(list[cat])];
+                listHtml += uniqueIngs.join(", ") + "</div>";
+            }
+
+            const bubble = document.getElementById('bubble');
+            bubble.innerHTML = listHtml + `<button onclick="this.parentElement.style.display='none'" style="margin-top:10px; font-size:0.7rem;">Cerrar</button>`;
+            bubble.style.display = 'block';
+            bubble.style.maxWidth = '300px';
+        }
+
+        function showBubble(text) {
+            const bubble = document.getElementById('bubble');
+            bubble.innerText = text;
+            bubble.style.display = 'block';
+            setTimeout(() => {
+                bubble.style.display = 'none';
+            }, 4000);
+        }
+
+        function toggleBubble() {
+            showBubble("¡Hola! Soy tu asistente. Elige una receta para empezar a planear tu mes saludablemente. 🥑");
+        }
+    </script>
+</body>
+</html>

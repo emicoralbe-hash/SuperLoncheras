@@ -1,0 +1,123 @@
+<!-- templates/marketplace.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketplace de Superalimentos - SuperLoncheras</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .market-container {
+            padding: 2rem 5%;
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        .product-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            position: relative;
+        }
+        .product-card:hover {
+            transform: translateY(-10px);
+        }
+        .product-img {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
+        .product-content {
+            padding: 1.5rem;
+        }
+        .vendor-tag {
+            font-size: 0.7rem;
+            color: var(--orange);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .price {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin: 10px 0;
+        }
+        .cta-banner {
+            background: var(--mint);
+            padding: 3rem;
+            border-radius: 30px;
+            text-align: center;
+            margin-top: 4rem;
+        }
+        .own-production {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--orange);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">Super<span>Loncheras</span></a>
+        <div class="nav-links">
+            <a href="/">Recetas</a>
+            <a href="/planner">Planificador</a>
+            <a href="/batch-cooking">Congelados ❄️</a>
+            <a href="/marketplace">Marketplace</a>
+        </div>
+    </header>
+
+    <div class="announcement-bar">
+        <span>🥜</span> De la granja a tu mesa. Apoya a productores locales y consigue tus superalimentos orgánicos. <span>🍯</span>
+    </div>
+
+    <div class="market-container">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <h1>Tienda de Bienestar</h1>
+            <div class="filter-chip active">Todos los Productos</div>
+        </div>
+
+        <div class="product-grid">
+            {% for producto in productos %}
+            <div class="product-card">
+                {% if "Productor Directo" in producto.vendor %}
+                <div class="own-production">🏠 Nuestra Cosecha</div>
+                {% endif %}
+                <img src="{{ producto.img }}" alt="{{ producto.nombre }}" class="product-img">
+                <div class="product-content">
+                    <div class="vendor-tag">{{ producto.vendor }}</div>
+                    <h3>{{ producto.nombre }}</h3>
+                    <div class="price">${{ producto.precio }}</div>
+                    <button style="width: 100%; padding: 0.8rem; background: var(--dark); color: white; border: none; border-radius: 12px; cursor: pointer; font-weight: 600;">
+                        🛒 Añadir al Pedido
+                    </button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="cta-banner">
+            <h2>¿Eres productor orgánico?</h2>
+            <p>Únete a nuestra red de bienestar y vende tus productos aquí.</p>
+            <button style="margin-top: 1.5rem; padding: 1rem 2rem; background: white; color: var(--dark); border: none; border-radius: 15px; font-weight: 600; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                Comenzar a Vender 🚀
+            </button>
+        </div>
+    </div>
+
+    <div class="floating-helper">
+        <span>🥜</span>
+    </div>
+</body>
+</html>

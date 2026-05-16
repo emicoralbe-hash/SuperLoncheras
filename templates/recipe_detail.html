@@ -1,0 +1,115 @@
+<!-- templates/recipe_detail.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ receta.nombre }} - SuperLoncheras</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .detail-container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 5%;
+        }
+        .hero-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+        .recipe-img-large {
+            width: 100%;
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+        .ingredients-list {
+            background: white;
+            padding: 2rem;
+            border-radius: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .step-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 20px;
+            margin-bottom: 1rem;
+            border-left: 5px solid var(--mint);
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+        .step-number {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--mint);
+            opacity: 0.5;
+        }
+        .video-wrapper {
+            margin-top: 3rem;
+            border-radius: 30px;
+            overflow: hidden;
+            aspect-ratio: 16/9;
+            background: #eee;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">Super<span>Loncheras</span></a>
+        <div class="nav-links">
+            <a href="/">Recetas</a>
+            <a href="/planner">Planificador</a>
+            <a href="/batch-cooking">Congelados ❄️</a>
+            <a href="/marketplace">Marketplace</a>
+        </div>
+    </header>
+
+    <div class="detail-container">
+        <div class="hero-section">
+            <img src="{{ receta.img }}" alt="{{ receta.nombre }}" class="recipe-img-large">
+            <div>
+                <span class="badge" style="position: static; margin-bottom: 1rem;">{{ receta.tag }}</span>
+                <h1>{{ receta.nombre }}</h1>
+                <p style="color: var(--gray);">Una opción deliciosa y cargada de nutrientes para tu familia.</p>
+                
+                <div class="ingredients-list">
+                    <h3>Ingredientes</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        {% for ing in receta.ingredientes %}
+                        <li style="padding: 8px 0; border-bottom: 1px solid #eee;">
+                            <strong>{{ ing.cant }}</strong> {{ ing.item }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 4rem;">
+            <h2>Paso a Paso</h2>
+            {% for paso in receta.pasos %}
+            <div class="step-card">
+                <div class="step-number">{{ loop.index }}</div>
+                <div>{{ paso }}</div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if receta.video_url %}
+        <div class="video-wrapper">
+            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/{{ receta.video_url }}" frameborder="0" allowfullscreen></iframe>
+        </div>
+        {% else %}
+        <div class="video-wrapper" style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: var(--gray);">
+            <div style="font-size: 3rem;">🎬</div>
+            <p>Video tutorial próximamente</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="floating-helper">
+        <span>👨‍🍳</span>
+    </div>
+</body>
+</html>
