@@ -19,6 +19,14 @@
             <a href="/planner">Planificador</a>
             <a href="/batch-cooking">Congelados ❄️</a>
             <a href="/marketplace">Marketplace</a>
+            {% if user %}
+                {% if user.role == 'admin' %}
+                    <a href="/admin" style="color: var(--orange); font-weight: bold;">Panel Admin</a>
+                {% endif %}
+                <a href="/logout" class="btn-login" style="padding: 8px 15px; margin-left: 10px;">Salir</a>
+            {% else %}
+                <a href="/login" class="btn-login" style="padding: 8px 15px; margin-left: 10px;">Ingresar</a>
+            {% endif %}
         </div>
     </header>
 

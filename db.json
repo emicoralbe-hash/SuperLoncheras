@@ -1,0 +1,93 @@
+{
+    "recetas": [
+        {
+            "id": 1, 
+            "nombre": "Bowl de Quinoa y Aguacate Hass", 
+            "img": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c", 
+            "tag": "⚡ Superfood",
+            "ingredientes": [
+                {"item": "Quinoa de Boyacá", "cant": "1/2 taza", "cat": "Granos"},
+                {"item": "Aguacate Hass", "cant": "1/2 unidad", "cat": "Frutas"},
+                {"item": "Chía", "cant": "1 cda", "cat": "Superalimentos"}
+            ],
+            "alergias": [],
+            "pasos": ["Cocinar la quinoa", "Picar el aguacate en cubos", "Mezclar todo en un bowl"],
+            "video_url": "v6YREv0t2rU"
+        },
+        {
+            "id": 2, 
+            "nombre": "Nuggets de Brócoli y Queso Campesino", 
+            "img": "https://images.unsplash.com/photo-1541832676-9b763b0239ab", 
+            "tag": "❄️ Congelable",
+            "ingredientes": [
+                {"item": "Brócoli fresco", "cant": "1 cabeza", "cat": "Verduras"},
+                {"item": "Queso Campesino", "cant": "100g", "cat": "Lácteos"},
+                {"item": "Huevo", "cant": "1 unidad", "cat": "Proteínas"}
+            ],
+            "alergias": ["Lácteos", "Huevo"],
+            "pasos": ["Rallar el brócoli", "Mezclar con queso y huevo", "Hornear por 15 min"],
+            "video_url": "Y90G7_qC5_k"
+        },
+        {
+            "id": 3,
+            "nombre": "Arepitas de Yuca y Chía",
+            "img": "https://images.unsplash.com/photo-1599121174707-1304977123a0",
+            "tag": "🏠 Familiar",
+            "ingredientes": [
+                {"item": "Yuca cocida", "cant": "2 tazas", "cat": "Tubérculos"},
+                {"item": "Semillas de Chía", "cant": "1 cda", "cat": "Superalimentos"}
+            ],
+            "alergias": [],
+            "pasos": ["Masar la yuca", "Asar hasta dorar"],
+            "video_url": "v_KjT-vP0lE"
+        },
+        {
+            "id": 4,
+            "nombre": "Sopa de Guineo Verde",
+            "img": "https://images.unsplash.com/photo-1547592166-23ac45744acd",
+            "tag": "🍲 Tradicional",
+            "ingredientes": [
+                {"item": "Guineo verde", "cant": "4 unidades", "cat": "Frutas"},
+                {"item": "Carne de res", "cant": "250g", "cat": "Proteínas"}
+            ],
+            "alergias": [],
+            "pasos": ["Cocinar todo a fuego lento", "Servir con cilantro"],
+            "video_url": "vY_KjT-vP0lE"
+        },
+        {
+            "id": 5,
+            "nombre": "Jugo de Guayaba y Avena",
+            "img": "https://images.unsplash.com/photo-1621506289937-a8e4df240d0b",
+            "tag": "🍹 Bebida",
+            "ingredientes": [
+                {"item": "Guayaba", "cant": "3 unidades", "cat": "Frutas"},
+                {"item": "Avena", "cant": "2 cdas", "cat": "Granos"}
+            ],
+            "alergias": [],
+            "pasos": ["Licuar y colar"],
+            "video_url": "vY_KjT-vP0lE"
+        }
+    ],
+    "productos": [
+        {
+            "id": 101,
+            "nombre": "Quinoa Orgánica Real",
+            "precio": 12.50,
+            "vendor": "Tu Cosecha (Productor Directo)",
+            "img": "https://images.unsplash.com/photo-1586201375761-83865001e31c",
+            "cat": "Granos"
+        },
+        {
+            "id": 102,
+            "nombre": "Miel de Abeja Orgánica",
+            "precio": 15.00,
+            "vendor": "Apícola Local",
+            "img": "https://images.unsplash.com/photo-1587049352846-4a222e784d38",
+            "cat": "Endulzantes"
+        }
+    ],
+    "usuarios": [
+        {"email": "admin@superloncheras.com", "pass": "admin123", "role": "admin"},
+        {"email": "mama@ejemplo.com", "pass": "12345", "role": "user"}
+    ]
+}

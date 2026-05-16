@@ -3,92 +3,87 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Planificador Mensual - SuperLoncheras</title>
     <link rel="stylesheet" href="/static/style.css">
     <style>
         .planner-layout {
             display: grid;
-            grid-template-columns: 1fr 350px;
+            grid-template-columns: 3fr 1fr;
             gap: 2rem;
             padding: 2rem 5%;
         }
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 10px;
+            gap: 15px;
         }
-        .calendar-day {
+        .day-card {
             background: white;
-            border-radius: 12px;
-            aspect-ratio: 1/1;
+            min-height: 120px;
+            border-radius: 15px;
             padding: 10px;
             border: 2px dashed #eee;
-            position: relative;
             transition: all 0.3s;
+            position: relative;
         }
-        .calendar-day:hover {
-            border-color: var(--mint);
-            background: #f9fff9;
+        .day-card:hover { border-color: var(--mint); background: #f9fffb; }
+        .day-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
         }
-        .calendar-day .day-number {
-            font-weight: 600;
-            color: var(--gray);
-            font-size: 0.9rem;
+        .day-number { font-weight: 700; color: #ccc; }
+        .btn-add-mini {
+            background: var(--mint);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            line-height: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        .sidebar {
+        .recipe-sidebar {
             background: white;
             padding: 1.5rem;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            height: calc(100vh - 200px);
-            position: sticky;
-            top: 100px;
+            max-height: 85vh;
             overflow-y: auto;
         }
-        .recipe-mini-card {
+        .drag-recipe {
             display: flex;
             align-items: center;
             gap: 10px;
             padding: 10px;
+            background: #fdfdfd;
+            border: 1px solid #eee;
             border-radius: 12px;
-            background: #f8f9fa;
             margin-bottom: 10px;
             cursor: grab;
-            transition: transform 0.2s;
+            transition: 0.2s;
         }
-        .recipe-mini-card:hover {
-            transform: scale(1.02);
-            background: var(--mint);
+        .drag-recipe:active { cursor: grabbing; transform: scale(0.95); }
+        .drag-recipe img { width: 45px; height: 45px; border-radius: 10px; object-fit: cover; }
+        .assigned-badge {
+            background: var(--light-mint);
+            padding: 8px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--dark);
+            cursor: pointer;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
-        .recipe-mini-card img {
-            width: 50px;
-            height: 50px;
-            border-radius: 8px;
-            object-fit: cover;
-        }
-        .mascot-bubble {
-            position: fixed;
-            bottom: 130px;
-            right: 40px;
-            background: white;
-            padding: 1rem;
-            border-radius: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            max-width: 200px;
-            font-size: 0.85rem;
-            display: none;
-            z-index: 1000;
-        }
-        .mascot-bubble::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            right: 30px;
-            border-width: 10px 10px 0;
-            border-style: solid;
-            border-color: white transparent transparent;
-        }
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); }
+        .modal-content { background: white; margin: 10% auto; padding: 2.5rem; border-radius: 30px; width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.2); }
+        .modal-btns { display: grid; grid-template-columns: 1fr; gap: 1rem; margin-top: 2rem; }
     </style>
 </head>
 <body>
@@ -99,172 +94,109 @@
             <a href="/planner">Planificador</a>
             <a href="/batch-cooking">Congelados ❄️</a>
             <a href="/marketplace">Marketplace</a>
+            {% if user %}
+                <a href="/logout" class="btn-login" style="padding: 8px 15px;">Salir</a>
+            {% else %}
+                <a href="/login" class="btn-login" style="padding: 8px 15px;">Ingresar</a>
+            {% endif %}
         </div>
     </header>
 
-    <div class="announcement-bar">
-        <span>📅</span> ¡Organiza tu mes! Arrastra recetas para armar tu minuta mensual. <span>🥑</span>
-    </div>
-
-    <div class="print-header">
-        <h1>Minuta Mensual de SuperLoncheras</h1>
-        <p>Alimentación Saludable con Superalimentos para mi Familia</p>
-    </div>
-
     <div class="planner-layout">
-        <div class="calendar-container">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                <h2>Mayo 2026</h2>
-                <div style="display: flex; gap: 10px;">
-                    <button onclick="generateShoppingList()" style="background: var(--mint); color: var(--dark); border: none; padding: 0.8rem 1.5rem; border-radius: 12px; cursor: pointer; font-weight: 600; box-shadow: 0 4px 10px rgba(152,255,152,0.3);">
-                        🛒 Generar Lista
-                    </button>
-                    <button onclick="window.print()" style="background: var(--orange); color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 12px; cursor: pointer; font-weight: 600; box-shadow: 0 4px 10px rgba(255,140,0,0.3);">
-                        🖨️ Imprimir Minuta
-                    </button>
+        <div class="calendar-section">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <h1>Mayo 2026</h1>
+                <div>
+                    <button class="btn-login" style="background: var(--mint); color: white;">Generar Lista de Compras</button>
+                    <button class="btn-login" style="background: var(--orange); color: white; margin-left: 10px;" onclick="window.print()">Imprimir Minuta</button>
                 </div>
             </div>
+            
             <div class="calendar-grid">
-                {% for dia in dias %}
-                <div class="calendar-day" onclick="assignRecipe(this)">
-                    <span class="day-number">{{ dia }}</span>
-                    <div class="assigned-recipe"></div>
+                {% for d in dias %}
+                <div class="day-card" ondragover="allowDrop(event)" ondrop="handleDrop(event, {{ d }})">
+                    <div class="day-header">
+                        <span class="day-number">{{ d }}</span>
+                        <button class="btn-add-mini" onclick="openAddModal({{ d }})">+</button>
+                    </div>
+                    <div id="day-slot-{{ d }}" class="recipe-slot">
+                        <!-- Aquí caen las recetas -->
+                    </div>
                 </div>
                 {% endfor %}
             </div>
         </div>
 
-        <div class="sidebar">
-            <h3>Mis Favoritos</h3>
-            {% for receta in recetas %}
-            <div class="recipe-mini-card" onclick="selectRecipe('{{ receta.nombre }}')">
-                <img src="{{ receta.img }}" alt="{{ receta.nombre }}">
+        <div class="recipe-sidebar">
+            <h3>Arrastra tu Menú 🥑</h3>
+            <p style="font-size: 0.8rem; color: var(--gray); margin-bottom: 1.5rem;">Sujeta una receta y suéltala en el calendario.</p>
+            {% for r in recetas %}
+            <div class="drag-recipe" draggable="true" ondragstart="handleDragStart(event, {{ r.id }}, '{{ r.nombre }}')">
+                <img src="{{ r.img }}" alt="{{ r.nombre }}">
                 <div>
-                    <div style="font-weight: 600; font-size: 0.9rem;">{{ receta.nombre }}</div>
-                    <div style="font-size: 0.7rem; color: var(--gray);">{{ receta.tag }}</div>
+                    <div style="font-size: 0.85rem; font-weight: 700;">{{ r.nombre }}</div>
+                    <div style="font-size: 0.7rem; color: var(--orange);">{{ r.tag }}</div>
                 </div>
             </div>
             {% endfor %}
         </div>
     </div>
 
-    <div class="mascot-bubble" id="bubble">
-        ¡Excelente elección! Esa receta es riquísima y súper nutritiva. 🥑✨
-    </div>
-
-    <style>
-        .print-footer {
-            display: none;
-            margin-top: 2rem;
-            border-top: 2px solid var(--mint);
-            padding-top: 1rem;
-        }
-        @media print {
-            .print-footer {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 2rem;
-            }
-            .print-box {
-                border: 1px solid #ddd;
-                padding: 1rem;
-                height: 150px;
-            }
-        }
-    </style>
-
-    <div class="print-footer">
-        <div class="print-box">
-            <h3 style="margin-top:0">📝 Notas de la Semana</h3>
+    <!-- Modal de Acción (+) -->
+    <div id="addModal" class="modal">
+        <div class="modal-content">
+            <span style="float:right; cursor:pointer; font-size: 1.5rem;" onclick="closeModal()">&times;</span>
+            <div style="font-size: 3rem; margin-bottom: 1rem;">🗓️</div>
+            <h2>Día <span id="modalDay"></span></h2>
+            <p>¿Qué quieres preparar para este día?</p>
+            
+            <div class="modal-btns">
+                <button class="btn-login" onclick="closeModal()">Elegir de la lista lateral (Arrastrar)</button>
+                <hr style="border: 0; border-top: 1px solid #eee;">
+                <button class="btn-login" style="background: var(--orange); color: white;" onclick="window.location.href='/admin'">✨ Crear Receta Personalizada</button>
+            </div>
         </div>
-        <div class="print-box">
-            <h3 style="margin-top:0">🛒 Pendientes de Compra</h3>
-        </div>
-    </div>
-
-    <div class="floating-helper" onclick="toggleBubble()">
-        <span>🥑</span>
     </div>
 
     <script>
-        const recetasData = {{ recetas|tojson }};
-        let assignedRecipes = {}; // Estructura: { dia: "Nombre Receta" }
-        let selectedRecipe = null;
+        function allowDrop(e) { e.preventDefault(); }
 
-        function selectRecipe(name) {
-            selectedRecipe = name;
-            showBubble(`Has seleccionado: ${name}. Ahora haz clic en un día del calendario.`);
+        function handleDragStart(e, id, nombre) {
+            e.dataTransfer.setData("id", id);
+            e.dataTransfer.setData("nombre", nombre);
         }
 
-        function assignRecipe(dayElement) {
-            const day = dayElement.querySelector('.day-number').innerText;
-            const target = dayElement.querySelector('.assigned-recipe');
+        function handleDrop(e, day) {
+            e.preventDefault();
+            const id = e.dataTransfer.getData("id");
+            const nombre = e.dataTransfer.getData("nombre");
             
-            if (selectedRecipe) {
-                const recipe = recetasData.find(r => r.nombre === selectedRecipe);
-                const recipeId = selectedRecipeId;
-                
-                assignedRecipes[day] = selectedRecipe;
-                
-                target.innerHTML = `
-                    <div style="background: var(--light-mint); padding: 5px; border-radius: 8px; font-size: 0.7rem; color: var(--dark); cursor: pointer;" 
-                         onclick="window.location.href='/recipe/${recipeId}'">
-                        <strong>${selectedRecipe}</strong>
-                    </div>`;
-                dayElement.style.border = "2px solid var(--mint)";
-                dayElement.style.background = '#fff8f0';
-                
-                showBubble(`¡Perfecto! Planificaste ${selectedRecipe} para el día ${day}. 🌟`);
-                selectedRecipe = null;
-            } else {
-                showBubble("Primero elige una receta de la lista a la derecha. 👉");
-            }
+            const slot = document.getElementById(`day-slot-${day}`);
+            slot.innerHTML = `
+                <div class="assigned-badge" onclick="window.location.href='/recipe/${id}'">
+                    ${nombre}
+                </div>
+            `;
+            
+            // Efecto visual de éxito
+            const card = slot.parentElement;
+            card.style.borderColor = "var(--mint)";
+            card.style.background = "#f0fff4";
         }
 
-        function generateShoppingList() {
-            if (Object.keys(assignedRecipes).length === 0) {
-                showBubble("¡Oops! Primero debes planificar algunas recetas en el calendario. 🥑");
-                return;
-            }
-
-            let list = {};
-            Object.values(assignedRecipes).forEach(name => {
-                const receta = recetasData.find(r => r.nombre === name);
-                if (receta && receta.ingredientes) {
-                    receta.ingredientes.forEach(ing => {
-                        if (!list[ing.cat]) list[ing.cat] = [];
-                        // Para este prototipo, simplemente los listamos. 
-                        // En una versión final, sumaríamos cantidades (ej: 1/2 taza + 1/2 taza = 1 taza)
-                        list[ing.cat].push(`${ing.item} (${ing.cant})`);
-                    });
-                }
-            });
-
-            let listHtml = "<h3>Tu Lista de Compras</h3>";
-            for (let cat in list) {
-                listHtml += `<div style="margin-bottom:10px;"><strong>${cat}:</strong><br>`;
-                // Eliminar duplicados simples para la vista
-                let uniqueIngs = [...new Set(list[cat])];
-                listHtml += uniqueIngs.join(", ") + "</div>";
-            }
-
-            const bubble = document.getElementById('bubble');
-            bubble.innerHTML = listHtml + `<button onclick="this.parentElement.style.display='none'" style="margin-top:10px; font-size:0.7rem;">Cerrar</button>`;
-            bubble.style.display = 'block';
-            bubble.style.maxWidth = '300px';
+        function openAddModal(day) {
+            document.getElementById('modalDay').innerText = day;
+            document.getElementById('addModal').style.display = "block";
         }
 
-        function showBubble(text) {
-            const bubble = document.getElementById('bubble');
-            bubble.innerText = text;
-            bubble.style.display = 'block';
-            setTimeout(() => {
-                bubble.style.display = 'none';
-            }, 4000);
+        function closeModal() {
+            document.getElementById('addModal').style.display = "none";
         }
 
-        function toggleBubble() {
-            showBubble("¡Hola! Soy tu asistente. Elige una receta para empezar a planear tu mes saludablemente. 🥑");
+        // Cerrar modal si se hace clic fuera
+        window.onclick = function(event) {
+            let modal = document.getElementById('addModal');
+            if (event.target == modal) closeModal();
         }
     </script>
 </body>

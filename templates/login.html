@@ -1,0 +1,57 @@
+<!-- templates/login.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Iniciar Sesión - SuperLoncheras</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .login-card {
+            max-width: 400px;
+            margin: 5rem auto;
+            padding: 2.5rem;
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        input {
+            width: 100%;
+            padding: 1rem;
+            margin: 10px 0;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+        }
+        .btn-login {
+            width: 100%;
+            padding: 1rem;
+            background: var(--mint);
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <a href="/" class="logo" style="display: block; margin-bottom: 2rem;">Super<span>Loncheras</span></a>
+        <h2>Bienvenido de nuevo</h2>
+        <p style="color: var(--gray); margin-bottom: 2rem;">Ingresa a tu cuenta saludable</p>
+        
+        <form action="/login" method="post">
+            <input type="email" name="email" placeholder="Correo electrónico" required>
+            <input type="password" name="password" placeholder="Contraseña" required>
+            <button type="submit" class="btn-login">Ingresar 🚀</button>
+        </form>
+        
+        <div style="margin-top: 2rem; font-size: 0.8rem; color: var(--gray);">
+            ¿No tienes cuenta? <a href="#" style="color: var(--orange);">Regístrate aquí</a>
+        </div>
+        <div style="margin-top: 1rem; font-size: 0.7rem; color: #aaa;">
+            Admin Demo: admin@superloncheras.com / admin123
+        </div>
+    </div>
+</body>
+</html>
