@@ -198,11 +198,20 @@
 
         function assignRecipe(dayElement) {
             const day = dayElement.querySelector('.day-number').innerText;
+            const target = dayElement.querySelector('.assigned-recipe');
+            
             if (selectedRecipe) {
+                const recipe = recetasData.find(r => r.nombre === selectedRecipe);
+                const recipeId = selectedRecipeId;
+                
                 assignedRecipes[day] = selectedRecipe;
-                dayElement.querySelector('.assigned-recipe').innerHTML = 
-                    `<div style="font-size: 0.6rem; margin-top: 5px; color: var(--orange); font-weight: 600;">${selectedRecipe}</div>`;
-                dayElement.style.borderColor = 'var(--orange)';
+                
+                target.innerHTML = `
+                    <div style="background: var(--light-mint); padding: 5px; border-radius: 8px; font-size: 0.7rem; color: var(--dark); cursor: pointer;" 
+                         onclick="window.location.href='/recipe/${recipeId}'">
+                        <strong>${selectedRecipe}</strong>
+                    </div>`;
+                dayElement.style.border = "2px solid var(--mint)";
                 dayElement.style.background = '#fff8f0';
                 
                 showBubble(`¡Perfecto! Planificaste ${selectedRecipe} para el día ${day}. 🌟`);

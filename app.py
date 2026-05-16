@@ -16,98 +16,283 @@ templates = Jinja2Templates(directory="templates")
 RECETAS = [
     {
         "id": 1, 
-        "nombre": "Bowl de Quinoa", 
+        "nombre": "Bowl de Quinoa y Aguacate Hass", 
         "img": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c", 
         "tag": "⚡ Superfood",
         "ingredientes": [
-            {"item": "Quinoa", "cant": "1/2 taza", "cat": "Granos"},
-            {"item": "Arándanos", "cant": "1/4 taza", "cat": "Frutas"},
+            {"item": "Quinoa de Boyacá", "cant": "1/2 taza", "cat": "Granos"},
+            {"item": "Aguacate Hass", "cant": "1/2 unidad", "cat": "Frutas"},
             {"item": "Chía", "cant": "1 cda", "cat": "Superalimentos"}
         ],
         "alergias": [],
-        "pasos": [
-            "Lavar la quinoa bajo el grifo hasta que el agua salga limpia.",
-            "Cocinar la quinoa con el doble de agua por 15 minutos.",
-            "Mezclar con los arándanos y las semillas de chía en un bowl.",
-            "Acompañar con un poco de miel si se desea."
-        ],
-        "video_url": "v6YREv0t2rU" # ID de ejemplo de YouTube
+        "pasos": ["Cocinar la quinoa", "Picar el aguacate en cubos", "Mezclar todo en un bowl"],
+        "video_url": "v6YREv0t2rU"
     },
     {
         "id": 2, 
-        "nombre": "Nuggets de Brócoli", 
+        "nombre": "Nuggets de Brócoli y Queso Campesino", 
         "img": "https://images.unsplash.com/photo-1541832676-9b763b0239ab", 
         "tag": "❄️ Congelable",
         "ingredientes": [
-            {"item": "Brócoli", "cant": "1 cabeza", "cat": "Verduras"},
-            {"item": "Huevo", "cant": "1 unidad", "cat": "Proteínas"},
-            {"item": "Queso Parmesano", "cant": "1/2 taza", "cat": "Lácteos"}
+            {"item": "Brócoli fresco", "cant": "1 cabeza", "cat": "Verduras"},
+            {"item": "Queso Campesino", "cant": "100g", "cat": "Lácteos"},
+            {"item": "Huevo", "cant": "1 unidad", "cat": "Proteínas"}
         ],
         "alergias": ["Lácteos", "Huevo"],
-        "pasos": [
-            "Rallar el brócoli crudo finamente.",
-            "Mezclar con el huevo batido y el queso parmesano.",
-            "Formar pequeñas bolitas y aplastarlas en una bandeja de horno.",
-            "Hornear a 200°C por 15-20 minutos hasta que doren."
-        ],
+        "pasos": ["Rallar el brócoli", "Mezclar con queso y huevo", "Hornear por 15 min"],
         "video_url": "Y90G7_qC5_k"
     },
     {
         "id": 3, 
-        "nombre": "Smoothie Verde", 
+        "nombre": "Batido de Lulo y Spirulina", 
         "img": "https://images.unsplash.com/photo-1505253716362-afaea1d3d1af", 
         "tag": "🍹 Bebida",
         "ingredientes": [
-            {"item": "Espinaca", "cant": "1 puñado", "cat": "Verduras"},
-            {"item": "Manzana Verde", "cant": "1 unidad", "cat": "Frutas"},
-            {"item": "Spirulina", "cant": "1 cdta", "cat": "Superalimentos"}
+            {"item": "Lulo maduro", "cant": "2 unidades", "cat": "Frutas"},
+            {"item": "Spirulina", "cant": "1 cdta", "cat": "Superalimentos"},
+            {"item": "Agua de Coco", "cant": "1 taza", "cat": "Bebidas"}
         ],
         "alergias": [],
-        "pasos": [
-            "Lavar bien las espinacas y la manzana.",
-            "Cortar la manzana en trozos eliminando el corazón.",
-            "Licuar todos los ingredientes con un poco de agua o agua de coco.",
-            "Servir inmediatamente para aprovechar los nutrientes."
-        ],
+        "pasos": ["Licuar el lulo con agua de coco", "Añadir spirulina", "Servir frío"],
         "video_url": "2v1rXvS-8p8"
     },
     {
         "id": 4, 
-        "nombre": "Salmón Omega-3", 
-        "img": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd", 
+        "nombre": "Arepitas de Yuca y Chía", 
+        "img": "https://images.unsplash.com/photo-1599121174707-1304977123a0", 
         "tag": "🏠 Familiar",
         "ingredientes": [
-            {"item": "Salmón", "cant": "200g", "cat": "Proteínas"},
-            {"item": "Espárragos", "cant": "1 manojo", "cat": "Verduras"},
-            {"item": "Limón", "cant": "1 unidad", "cat": "Frutas"}
+            {"item": "Yuca cocida", "cant": "2 tazas", "cat": "Tubérculos"},
+            {"item": "Semillas de Chía", "cant": "1 cda", "cat": "Superalimentos"},
+            {"item": "Sal rosada", "cant": "al gusto", "cat": "Especias"}
         ],
-        "alergias": ["Pescado"],
-        "pasos": [
-            "Sellar el salmón en una sartén caliente con poco aceite.",
-            "Añadir los espárragos a la misma sartén.",
-            "Cocinar por 4 minutos de cada lado.",
-            "Terminar con jugo de limón fresco y una pizca de sal."
-        ],
-        "video_url": "b8lXh0m0Lp4"
+        "alergias": [],
+        "pasos": ["Masar la yuca cocida", "Agregar chía", "Asar en sartén hasta dorar"],
+        "video_url": "v_KjT-vP0lE"
     },
     {
         "id": 5, 
-        "nombre": "Sopa de Lentejas", 
-        "img": "https://images.unsplash.com/photo-1547592166-23ac45744acd", 
+        "nombre": "Patacones al Horno con Atún", 
+        "img": "https://images.unsplash.com/photo-1626074353765-517a681e40be", 
+        "tag": "🏠 Familiar",
+        "ingredientes": [
+            {"item": "Plátano Verde", "cant": "2 unidades", "cat": "Frutas"},
+            {"item": "Atún en agua", "cant": "1 lata", "cat": "Proteínas"},
+            {"item": "Tomate y Cebolla", "cant": "para el hogao", "cat": "Verduras"}
+        ],
+        "alergias": ["Pescado"],
+        "pasos": ["Hacer patacones", "Hornear para que queden crocantes", "Poner atún encima"],
+        "video_url": "H4Ym_M7H-4M"
+    },
+    {
+        "id": 6, 
+        "nombre": "Crema de Auyama y Jengibre", 
+        "img": "https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a", 
         "tag": "🍲 Batch Cooking",
         "ingredientes": [
-            {"item": "Lentejas", "cant": "1 taza", "cat": "Legumbres"},
-            {"item": "Zanahoria", "cant": "2 unidades", "cat": "Verduras"},
-            {"item": "Kale", "cant": "1 puñado", "cat": "Verduras"}
+            {"item": "Auyama picada", "cant": "500g", "cat": "Verduras"},
+            {"item": "Jengibre rallado", "cant": "1 cdta", "cat": "Especias"},
+            {"item": "Leche de Coco", "cant": "1/2 taza", "cat": "Bebidas"}
         ],
-        "congelado_tips": "Dura hasta 3 meses. Descongelar en refrigeración 24h antes.",
         "alergias": [],
-        "pasos": [
-            "Sofreír la zanahoria picada.",
-            "Añadir las lentejas y cubrir con agua o caldo de verduras.",
-            "Cocinar a fuego lento por 30 minutos.",
-            "Añadir el kale picado al final y dejar reposar 5 minutos."
-        ]
+        "pasos": ["Cocinar auyama con jengibre", "Licuar con leche de coco", "Salpimentar"],
+        "video_url": "K8_wWp3vC0E"
+    },
+    {
+        "id": 7, 
+        "nombre": "Muffins de Banano y Avena", 
+        "img": "https://images.unsplash.com/photo-1558961359-1d99283f085c", 
+        "tag": "❄️ Congelable",
+        "ingredientes": [
+            {"item": "Banano maduro", "cant": "3 unidades", "cat": "Frutas"},
+            {"item": "Avena en hojuelas", "cant": "2 tazas", "cat": "Granos"},
+            {"item": "Canela", "cant": "1 cdta", "cat": "Especias"}
+        ],
+        "alergias": [],
+        "pasos": ["Aplastar bananos", "Mezclar con avena", "Hornear 20 min"],
+        "video_url": "fL-z7_x_O-I"
+    },
+    {
+        "id": 8, 
+        "nombre": "Ensalada de Frijol Negro y Maíz", 
+        "img": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd", 
+        "tag": "🥗 Saludable",
+        "ingredientes": [
+            {"item": "Frijol Negro cocido", "cant": "1 taza", "cat": "Legumbres"},
+            {"item": "Maíz tierno", "cant": "1/2 taza", "cat": "Granos"},
+            {"item": "Cilantro", "cant": "un manojo", "cat": "Verduras"}
+        ],
+        "alergias": [],
+        "pasos": ["Mezclar frijoles y maíz", "Añadir limón y cilantro", "Refrigerar antes de servir"],
+        "video_url": "vY_KjT-vP0lE"
+    },
+    {
+        "id": 9,
+        "nombre": "Arroz con Pollo y Verduras",
+        "img": "https://images.unsplash.com/photo-1512058560366-cd24295980c7",
+        "tag": "🏠 Familiar",
+        "ingredientes": [
+            {"item": "Arroz blanco", "cant": "1 taza", "cat": "Granos"},
+            {"item": "Pollo desmechado", "cant": "1 pechuga", "cat": "Proteínas"},
+            {"item": "Arveja y Zanahoria", "cant": "1/2 taza", "cat": "Verduras"}
+        ],
+        "alergias": [],
+        "pasos": ["Cocinar arroz con verduras", "Añadir pollo", "Mezclar bien"],
+        "video_url": "vY_KjT-vP0lE"
+    },
+    {
+        "id": 10,
+        "nombre": "Sopa de Guineo (Banano Verde)",
+        "img": "https://images.unsplash.com/photo-1547592166-23ac45744acd",
+        "tag": "🍲 Tradicional",
+        "ingredientes": [
+            {"item": "Guineo verde", "cant": "4 unidades", "cat": "Frutas"},
+            {"item": "Carne de res para sopa", "cant": "250g", "cat": "Proteínas"},
+            {"item": "Cilantro y Cebolla", "cant": "al gusto", "cat": "Verduras"}
+        ],
+        "alergias": [],
+        "pasos": ["Picar guineo en cuadritos", "Cocinar con carne y aliños", "Servir caliente"],
+        "video_url": "vY_KjT-vP0lE"
+    },
+    {
+        "id": 11,
+        "nombre": "Jugo de Guayaba y Avena",
+        "img": "https://images.unsplash.com/photo-1621506289937-a8e4df240d0b",
+        "tag": "🍹 Bebida",
+        "ingredientes": [
+            {"item": "Guayaba madura", "cant": "3 unidades", "cat": "Frutas"},
+            {"item": "Avena en polvo", "cant": "2 cdas", "cat": "Granos"},
+            {"item": "Panela rallada", "cant": "1 cda", "cat": "Endulzantes"}
+        ],
+        "alergias": [],
+        "pasos": ["Licuar guayaba con avena", "Colar si se desea", "Endulzar con panela"],
+        "video_url": "vY_KjT-vP0lE"
+    },
+    {
+        "id": 12,
+        "nombre": "Tortilla de Espinaca y Champiñones",
+        "img": "https://images.unsplash.com/photo-1525351484163-7529414344d8",
+        "tag": "🍳 Desayuno",
+        "ingredientes": [
+            {"item": "Huevo", "cant": "2 unidades", "cat": "Proteínas"},
+            {"item": "Espinaca baby", "cant": "1 taza", "cat": "Verduras"},
+            {"item": "Champiñones", "cant": "1/2 taza", "cat": "Verduras"}
+        ],
+        "alergias": ["Huevo"],
+        "pasos": ["Batir huevos", "Añadir espinaca y champiñones", "Cocinar en sartén"],
+        "video_url": "vY_KjT-vP0lE"
+    },
+    {
+        "id": 13,
+        "nombre": "Lentejas con Chorizo de Ternera",
+        "img": "https://images.unsplash.com/photo-1547592166-23ac45744acd",
+        "tag": "🍲 Familiar",
+        "ingredientes": [
+            {"item": "Lentejas Pardinas", "cant": "1 taza", "cat": "Legumbres"},
+            {"item": "Chorizo de Ternera", "cant": "2 unidades", "cat": "Proteínas"},
+            {"item": "Papa picada", "cant": "1 unidad", "cat": "Tubérculos"}
+        ],
+        "alergias": [],
+        "pasos": ["Cocinar lentejas con papa", "Añadir chorizo picado", "Hacer un buen hogao"],
+        "video_url": "vY_KjT-vP0lE"
+    },
+    {
+        "id": 14,
+        "nombre": "Salpicón de Frutas Tropicales",
+        "img": "https://images.unsplash.com/photo-1490818387583-1baba5e638af",
+        "tag": "🍹 Bebida",
+        "ingredientes": [
+            {"item": "Papaya y Melón", "cant": "1 taza", "cat": "Frutas"},
+            {"item": "Banano", "cant": "1 unidad", "cat": "Frutas"},
+            {"item": "Jugo de Naranja", "cant": "2 tazas", "cat": "Frutas"}
+        ],
+        "alergias": [],
+        "pasos": ["Picar frutas en cubos", "Mezclar con jugo de naranja", "Servir bien frío"],
+        "video_url": "vY_KjT-vP0lE"
+    },
+    {
+        "id": 15,
+        "nombre": "Tostadas de Masa Madre con Tomate",
+        "img": "https://images.unsplash.com/photo-1525351484163-7529414344d8",
+        "tag": "🍳 Desayuno",
+        "ingredientes": [
+            {"item": "Pan de Masa Madre", "cant": "2 tajadas", "cat": "Granos"},
+            {"item": "Tomate cherry", "cant": "1/2 taza", "cat": "Verduras"},
+            {"item": "Aceite de Oliva", "cant": "1 cda", "cat": "Grasas"}
+        ],
+        "alergias": ["Gluten"],
+        "pasos": ["Tostar el pan", "Poner tomate y aceite encima", "Salpimentar"],
+        "video_url": "vY_KjT-vP0lE"
+    },
+    {
+        "id": 16,
+        "nombre": "Pancakes de Avena y Arándanos",
+        "img": "https://images.unsplash.com/photo-1528452632967-2d43a6d599a7",
+        "tag": "🍳 Desayuno",
+        "ingredientes": [
+            {"item": "Avena molida", "cant": "1 taza", "cat": "Granos"},
+            {"item": "Huevo", "cant": "1 unidad", "cat": "Proteínas"},
+            {"item": "Arándanos frescos", "cant": "1/4 taza", "cat": "Frutas"}
+        ],
+        "alergias": ["Huevo"],
+        "pasos": ["Licuar ingredientes", "Cocinar en sartén", "Servir con miel"],
+        "video_url": "vY_KjT-vP0lE"
+    },
+    {
+        "id": 17,
+        "nombre": "Caldo de Costilla Levanta Muertos",
+        "img": "https://images.unsplash.com/photo-1547592166-23ac45744acd",
+        "tag": "🍲 Tradicional",
+        "ingredientes": [
+            {"item": "Costilla de res", "cant": "500g", "cat": "Proteínas"},
+            {"item": "Papa Sabanera", "cant": "3 unidades", "cat": "Tubérculos"},
+            {"item": "Cilantro", "cant": "al gusto", "cat": "Verduras"}
+        ],
+        "alergias": [],
+        "pasos": ["Pitar la costilla", "Añadir papa y cilantro", "Servir con arepa"],
+        "video_url": "vY_KjT-vP0lE"
+    },
+    {
+        "id": 18,
+        "nombre": "Arepa de Choclo con Queso",
+        "img": "https://images.unsplash.com/photo-1599121174707-1304977123a0",
+        "tag": "🌽 Típico",
+        "ingredientes": [
+            {"item": "Masa de choclo", "cant": "2 tazas", "cat": "Granos"},
+            {"item": "Queso Cuajada", "cant": "100g", "cat": "Lácteos"},
+            {"item": "Mantequilla", "cant": "1 cda", "cat": "Grasas"}
+        ],
+        "alergias": ["Lácteos"],
+        "pasos": ["Asar arepa", "Poner queso encima", "Doblar y calentar"],
+        "video_url": "vY_KjT-vP0lE"
+    },
+    {
+        "id": 19,
+        "nombre": "Salpicón de Pollo (Lonchera)",
+        "img": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd",
+        "tag": "🍱 Lonchera",
+        "ingredientes": [
+            {"item": "Pollo cocido", "cant": "1/2 pechuga", "cat": "Proteínas"},
+            {"item": "Papa picada", "cant": "1 unidad", "cat": "Tubérculos"},
+            {"item": "Mayonesa casera", "cant": "1 cda", "cat": "Salsas"}
+        ],
+        "alergias": ["Huevo"],
+        "pasos": ["Mezclar pollo y papa", "Añadir mayonesa", "Refrigerar"],
+        "video_url": "vY_KjT-vP0lE"
+    },
+    {
+        "id": 20,
+        "nombre": "Smoothie de Mango y Chía",
+        "img": "https://images.unsplash.com/photo-1505253716362-afaea1d3d1af",
+        "tag": "🍹 Bebida",
+        "ingredientes": [
+            {"item": "Mango de azúcar", "cant": "2 unidades", "cat": "Frutas"},
+            {"item": "Semillas de Chía", "cant": "1 cda", "cat": "Superalimentos"},
+            {"item": "Leche de Almendras", "cant": "1 taza", "cat": "Bebidas"}
+        ],
+        "alergias": [],
+        "pasos": ["Licuar mango con leche", "Añadir chía", "Dejar reposar 5 min"],
+        "video_url": "vY_KjT-vP0lE"
     }
 ]
 
