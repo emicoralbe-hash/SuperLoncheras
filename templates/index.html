@@ -1,15 +1,79 @@
-<!-- Dentro del header en index.html -->
-<div class="nav-links">
-    <a href="/">Recetas</a>
-    <a href="/planner">Planificador</a>
-    <a href="/batch-cooking">Congelados ❄️</a>
-    <a href="/marketplace">Marketplace</a>
-    {% if user %}
-        {% if user.role == 'admin' %}
-            <a href="/admin" style="background: var(--orange); color: white; padding: 8px 15px; border-radius: 12px; font-weight: bold;">Panel Admin ⚙️</a>
-        {% endif %}
-        <a href="/logout" class="btn-login" style="padding: 8px 15px; margin-left: 10px; background: #eee; border-radius: 12px;">Salir</a>
-    {% else %}
-        <a href="/login" class="btn-login" style="padding: 10px 20px; margin-left: 10px; background: var(--mint); color: white; border-radius: 12px; font-weight: 600;">Ingresar</a>
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SuperLoncheras - Nutrición Premium</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="announcement-bar">
+        <span>🍎</span> ¡Tip de hoy! Los arándanos son excelentes para la memoria de los niños <span>✨</span>
+    </div>
+
+    <header>
+        <a href="#" class="logo">Super<span>Loncheras</span></a>
+        <div class="nav-links">
+            <a href="/">Recetas</a>
+            <a href="/planner">Planificador</a>
+            <a href="/batch-cooking">Congelados ❄️</a>
+            <a href="/marketplace">Marketplace</a>
+            {% if user %}
+                {% if user.role == 'admin' %}
+                    <a href="/admin" style="color: var(--orange); font-weight: bold;">Panel Admin</a>
+                {% endif %}
+                <a href="/logout" class="btn-login" style="padding: 8px 15px; margin-left: 10px;">Salir</a>
+            {% else %}
+                <a href="/login" class="btn-login" style="padding: 8px 15px; margin-left: 10px;">Ingresar</a>
+            {% endif %}
+        </div>
+    </header>
+
+    <div class="filters" style="justify-content: space-between;">
+        <div style="display: flex; gap: 10px;">
+            <a href="/" class="filter-chip {% if not filtros.lacteos and not filtros.huevo and not filtros.pescado %}active{% endif %}">Todo</a>
+            <a href="/?sin_lacteos=true" class="filter-chip {% if filtros.lacteos %}active{% endif %}">🥛 Sin Lácteos</a>
+            <a href="/?sin_huevo=true" class="filter-chip {% if filtros.huevo %}active{% endif %}">🥚 Sin Huevo</a>
+            <a href="/?sin_pescado=true" class="filter-chip {% if filtros.pescado %}active{% endif %}">🐟 Sin Pescado</a>
+        </div>
+        <form action="/" method="get" style="display: flex; gap: 5px;">
+            <input type="text" name="q" placeholder="Buscar receta..." value="{{ query or '' }}" style="padding: 0.5rem 1rem; border-radius: 20px; border: 1px solid #ddd; outline: none;">
+            <button type="submit" style="background: var(--mint); border: none; padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer;">🔍</button>
+        </form>
+    </div>
+
+    {% if not recetas %}
+    <div style="text-align: center; padding: 5rem; color: var(--gray);">
+        <div style="font-size: 4rem;">🕵️‍♂️</div>
+        <h3>No encontramos recetas que coincidan con tu búsqueda.</h3>
+        <p>Prueba con otros ingredientes o limpia los filtros.</p>
+        <a href="/" class="filter-chip active" style="display: inline-block; margin-top: 1rem;">Ver todo</a>
+    </div>
     {% endif %}
-</div>
+
+    <div class="container">
+        <div class="recipe-grid">
+            {% for receta in recetas %}
+            <a href="/recipe/{{ receta.id }}" style="text-decoration: none; color: inherit;">
+                <div class="recipe-card">
+                    <span class="badge">{{ receta.tag }}</span>
+                    <img src="{{ receta.img }}" alt="{{ receta.nombre }}">
+                    <div class="recipe-info">
+                        <h3>{{ receta.nombre }}</h3>
+                        <div class="recipe-meta">
+                            <span>🕒 20 min</span>
+                            <span>🥬 Saludable</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="floating-helper" title="¡Hola! Soy tu asistente de nutrición">
+        <span>🥑</span>
+    </div>
+</body>
+</html>
